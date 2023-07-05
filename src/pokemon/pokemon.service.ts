@@ -7,10 +7,15 @@ import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Pokemon, Prisma } from '@prisma/client';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PokemonService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async create(createPokemonDto: CreatePokemonDto) {
     try {
@@ -34,8 +39,14 @@ export class PokemonService {
     }
   }
 
-  async findAll() {
-    const pokemons: Pokemon[] = await this.prisma.pokemon.findMany();
+  async findAll({
+    limit = this.configService.get('defaultLimit'),
+    offset,
+  }: PaginationDto) {
+    const pokemons: Pokemon[] = await this.prisma.pokemon.findMany({
+      take: limit,
+      skip: offset,
+    });
     return pokemons;
   }
 

@@ -7,20 +7,34 @@
 1. Clone
 2. Install dependencies
 
-```
-yarn install
+```bash
+yarn
 ```
 
 3. Nest cli installed
 
-```
+```bash
 npm i -g @nestjs/cli
 ```
 
 4. Serve DB
 
-```
+```bash
 docker-compose up -d
+```
+
+5. Create .env file Example: [.env.template](.env.template)
+
+6. Start dev server
+
+```bash
+  yarn start:dev
+```
+
+7. Can populate DB with
+
+```
+  http://localhost:PORT/api/v2/seed
 ```
 
 ## Built with
